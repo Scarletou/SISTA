@@ -1,25 +1,25 @@
 # Sista
 
-**A caring big sister in your pocket: an anonymous, clinician-validated listening space for adolescent girls and young women, reached by QR code and delivered over WhatsApp.**
+**An AI big sister on WhatsApp that listens to girls and young women in Burkina Faso, anonymously and day or night, and connects them to a real team the moment they need it.**
 
-Built by Aino Digital in Ouagadougou, Burkina Faso, on the technology behind SAUVIE (QR-to-WhatsApp emergency alerts, 5,000+ active users).
+Built by Aino Digital in Burkina Faso, on the technology behind SAUVIE (QR-to-WhatsApp emergency alerts, 5,000+ users, recognised by UNFPA and UNDP).
 
-> **Status: v0.2, pilot-ready software.** WhatsApp integration, encrypted storage, team console and partner dashboards run today. All conversation content is a **draft pending sign-off by our clinical lead** (psychiatrist). Not yet deployed with users.
+> **Status: v0.2, working prototype.** WhatsApp integration, AI listening with safety checks, red-flag alerts, encrypted storage, team console and partner dashboards run today. All conversation content and AI instructions are a **draft pending review by our clinical lead** and partner specialists. Not yet deployed with users.
 
 ---
 
 ## The problem
 
-In Ouagadougou, girls and young women face exam and work stress, bullying, online harassment, controlling partners, family pressure and the emotional load of pregnancy and motherhood, with almost no access to confidential, stigma-free psychological support. Asking for help in person is hard, and mental health professionals are rare.
+In Burkina Faso, girls and young women face exam and work stress, bullying, online harassment, controlling partners, family pressure and the emotional load of pregnancy and motherhood, with almost no access to confidential, stigma-free psychological support. Asking for help in person is hard, and mental health professionals are rare.
 
-In many West African families, an older sister is the first person a girl confides in. **Sista** recreates that trusted voice: always available, never judging, and backed by a psychiatrist.
+In many West African families, an older sister is the first person a girl confides in. **Sista** recreates that trusted voice: always available, never judging, and backed by a clinical team.
 
 ## How Sista works
 
 1. **Scan.** QR posters in schools, universities, health centres, workplaces and women's associations open a WhatsApp chat pre-filled with the site code. No app, no account, no name.
-2. **Talk.** Sista holds a guided conversation like a big sister: she asks how she feels, invites her to say what's going on in her own words, asks a follow-up question, then shares what helps (stress at school or work, bullying, online harm, periods and body, family, partner and relationship, pregnancy and baby, sadness). No numbered menus. When Sista is not sure she understands, she offers a real person instead of guessing.
-3. **Get help.** She receives short, practical guidance **written and validated by a psychiatrist**, and can ask to be called back by a trained referent or the clinician.
-4. **Crisis = human.** Any message signalling self-harm or immediate danger triggers fixed helpline information (Allo 116 for under-18s, GBV helpline 80 00 12 87, police 17, fire brigade 18), opens an urgent case and notifies the on-call team.
+2. **Talk.** Sista talks like a big sister: an AI companion lets her vent, reflects what she feels and asks gentle questions. When she is ready, Sista shares short, locally adapted advice (stress at school or work, bullying, online harm, periods and body, family, partner and relationship, pregnancy and baby, sadness). No numbered menus.
+3. **Get help.** Advice comes from content **reviewed with our clinical lead**, and she can ask at any time to be contacted by a trained referent or a health professional.
+4. **Red flags = human.** Red-flag keywords (self-harm, immediate danger, violence) are detected by fixed rules, not AI. Sista comforts her, asks if she is safe and shares helplines (Allo 116 for under-18s, GBV helpline 80 00 12 87, police 17, fire brigade 18), opens an urgent case and notifies the on-call team.
 5. **Human hand-over.** In the team console, a clinician or referent takes the case and chats with her directly on WhatsApp. The bot goes silent; crisis rules keep running.
 6. **Partners see trends, never people.** Each site gets an anonymised dashboard (mood by week, topics), with counts under 5 suppressed.
 
@@ -74,14 +74,18 @@ test/                 Automated tests
 
 ## Roadmap (12 months)
 
-- **M1–3** Clinical validation of all content and crisis protocol; Mooré and Dioula versions with back-translation; voice-note support.
-- **M4–6** Pilot in Ouagadougou across 5 secondary schools, 1 university campus and 2 health centres; train 20 referents; on-call rota with the clinical lead.
-- **M7–12** Reach 5,000 girls and young women; publish open, anonymised impact data; share the toolkit with the ministries in charge of education, health and women, and partner NGOs.
+- **M1–3** Small management team; expert review by our clinical lead with psychologists, sociologists and social workers; focus groups with 40 girls and young women; partnerships with research institutes using AI for local languages; verified WhatsApp number, encrypted local hosting, data protection declaration.
+- **M4–6** Pilot in Ouagadougou: 5 secondary schools, 1 university, 2 health centres; 20 trained referents; on-call rota; 1,500 users.
+- **M7–9** Mooré and Dioula versions with voice notes; 15 partner sites; partnerships with ministries and NGOs.
+- **M10–12** 5,000 girls and young women reached; open, anonymised impact report; sustainability model with paying partners.
 
 ## Team
 
-- **Scarlett**: Founder & CEO, Aino Digital (SAUVIE). Environmental engineer, YALI 2019 alumna.
-- **Clinical lead**: Psychiatrist, Ouagadougou. Content validation, crisis protocols, referent training.
+- **Scarlett**: Founder & CEO, Aino Digital. Urban planner and environmental engineer, YALI 2019 alumna, creator of SAUVIE.
+- **Dr Marina Ouédraogo and her medical colleagues**: clinical leads. Physician in specialist training in psychiatry; reviews content, AI instructions and crisis protocols, and trains referents.
+- **Merlie Compaoré**: Project Coordinator (sales, partnerships, events).
+- **Fadilatou Sankara**: Customer relations.
+- **Armel Somé**: Field distribution.
 
 ## License
 
