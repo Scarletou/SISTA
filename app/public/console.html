@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sista · Console</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/common.js" defer></script>
+<script src="/static/console.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Sista <span>· équipe</span></div>
+  <nav class="nav"><a href="/console" data-nav="console">Alertes</a><a href="/dashboard" data-nav="dashboard">Tableau de bord</a></nav>
+  <div class="who"><span id="who-name"></span><button class="btn" id="logout" type="button">Se déconnecter</button></div>
+</header>
+
+<main class="console">
+  <aside class="list" aria-label="Cas">
+    <div class="list-head">
+      <button type="button" id="tab-open" aria-pressed="true">En cours <span id="count-open" class="mono"></span></button>
+      <button type="button" id="tab-closed" aria-pressed="false">Clôturés</button>
+    </div>
+    <div id="cases"></div>
+  </aside>
+
+  <section class="detail" aria-live="polite">
+    <div class="placeholder" id="placeholder">
+      <p><b>Choisis un cas à gauche.</b></p>
+      <p>Les cas urgents sont en haut, avec une bande rouge.<br>La liste se met à jour toute seule toutes les 10 secondes.</p>
+    </div>
+
+    <div id="case" hidden>
+      <div class="detail-head">
+        <div>
+          <h2 id="c-title"></h2>
+          <div class="facts">
+            <span id="c-status"></span><span id="c-site"></span><span id="c-created"></span><span id="c-mood"></span><span id="c-lang"></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="claim" type="button">Prendre en charge</button>
+          <select id="outcome" aria-label="Issue du cas">
+            <option value="resolved">Résolu</option>
+            <option value="referred_clinician">Orientée vers la psychiatre</option>
+            <option value="referred_service">Orientée vers un service</option>
+            <option value="no_answer">Pas de réponse</option>
+            <option value="other">Autre</option>
+          </select>
+          <button class="btn" id="close" type="button">Clôturer</button>
+        </div>
+      </div>
+      <p class="notice" id="window-notice" hidden></p>
+      <div class="thread" id="thread"></div>
+      <form class="composer" id="composer">
+        <label for="reply" hidden>Message</label>
+        <textarea id="reply" placeholder="Écris ton message. Elle le recevra sur WhatsApp, précédé de ton prénom." maxlength="3000"></textarea>
+        <button class="btn primary" type="submit" id="send">Envoyer</button>
+      </form>
+      <p class="guide">Dès que tu prends un cas en charge, Sista se tait : c'est toi qui parles. Les règles de crise continuent de tourner. Clôture le cas pour rendre la main à Sista.</p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

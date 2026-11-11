@@ -1,0 +1,13 @@
+services:
+  sista:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      SISTA_DB_PATH: /data/sista.db
+      PORT: "3000"
+    volumes:
+      - ./data:/data
+    ports:
+      - "127.0.0.1:3000:3000"   # only reachable through the HTTPS reverse proxy

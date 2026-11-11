@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sista · Connexion</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/login.js" defer></script>
+</head>
+<body>
+<main class="login">
+  <form id="form" autocomplete="on">
+    <h1>Sista <span>· équipe</span></h1>
+    <p class="muted">Espace réservé à l'équipe d'écoute et aux sites partenaires.</p>
+    <div class="field"><label for="username">Identifiant</label><input class="input" id="username" name="username" autocomplete="username" required></div>
+    <div class="field"><label for="password">Mot de passe</label><input class="input" id="password" name="password" type="password" autocomplete="current-password" required></div>
+    <p class="error" id="error" role="alert" hidden></p>
+    <button class="btn primary" type="submit">Se connecter</button>
+  </form>
+</main>
+</body>
+</html>

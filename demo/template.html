@@ -1,0 +1,208 @@
+<title>Sista</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone on the left (what the student sees), team & school views on the right. */
+:root {
+  --bg: #F6F3F5;          /* warm neutral with a hibiscus bias */
+  --surface: #FFFFFF;
+  --ink: #221A26;
+  --muted: #6E6271;
+  --line: #E5DCE3;
+  --accent: #9B2C5A;      /* bissap / hibiscus */
+  --accent-soft: #F5E4EC;
+  --chat-bg: #EFE8EC;
+  --bubble-in: #FFFFFF;
+  --bubble-out: #F2D9E5;
+  --urgent: #B42318;
+  --urgent-soft: #FDE8E6;
+  --calm: #2E6B57;
+  --calm-soft: #E3F1EB;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171219; --surface: #211a24; --ink: #F3ECF1; --muted: #B3A6B0; --line: #3A2F3D;
+  --accent: #E07AA5; --accent-soft: #3A2030; --chat-bg: #1C161F; --bubble-in: #2A222D; --bubble-out: #4A2539;
+  --urgent: #FF8A7A; --urgent-soft: #3D1E1B; --calm: #7FCFAF; --calm-soft: #1D3029; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #171219; --surface: #211a24; --ink: #F3ECF1; --muted: #B3A6B0; --line: #3A2F3D;
+  --accent: #E07AA5; --accent-soft: #3A2030; --chat-bg: #1C161F; --bubble-in: #2A222D; --bubble-out: #4A2539;
+  --urgent: #FF8A7A; --urgent-soft: #3D1E1B; --calm: #7FCFAF; --calm-soft: #1D3029; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 24px; }
+h1 { font: 700 clamp(28px, 4vw, 40px)/1.05 var(--display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.flag { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent);
+  background: var(--accent-soft); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+
+.grid { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Phone */
+.phone { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
+  box-shadow: 0 18px 40px -24px rgba(60, 20, 45, .35); display: flex; flex-direction: column; height: 680px; max-height: 82vh; }
+.phone-bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center;
+  font: 700 16px var(--display); }
+.phone-bar b { display: block; font: 600 15px var(--display); }
+.phone-bar small { color: var(--calm); font-size: 12px; }
+.phone-bar button { margin-left: auto; }
+#thread { flex: 1; overflow-y: auto; background: var(--chat-bg); padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; }
+.day { align-self: center; font: 500 11px var(--mono); color: var(--muted); background: var(--surface); padding: 3px 10px; border-radius: 10px; margin-bottom: 4px; }
+.msg { display: flex; }
+.msg.out { justify-content: flex-end; }
+.bubble { max-width: 84%; padding: 8px 11px 6px; border-radius: 12px; background: var(--bubble-in); font-size: 14px; line-height: 1.45;
+  box-shadow: 0 1px 0 rgba(0,0,0,.06); overflow-wrap: anywhere; }
+.msg.in .bubble { border-top-left-radius: 4px; }
+.msg.out .bubble { background: var(--bubble-out); border-top-right-radius: 4px; }
+.time { display: block; text-align: right; font: 10px var(--mono); color: var(--muted); margin-top: 2px; }
+#typing { font: 12px var(--mono); color: var(--muted); padding-left: 6px; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 10px 0; background: var(--surface); }
+.chip { flex: none; font: 500 12px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip.danger { border-color: var(--urgent); color: var(--urgent); }
+#composer { display: flex; gap: 8px; padding: 10px; background: var(--surface); }
+#input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; font: 14px var(--body);
+  background: var(--bg); color: var(--ink); }
+.send { border: 0; background: var(--accent); color: #fff; border-radius: 999px; padding: 0 16px; font: 700 14px var(--body); cursor: pointer; }
+.ghost { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 8px; padding: 4px 10px; font: 12px var(--body); cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Right column */
+.side { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+[role=tab] { border: 0; background: none; color: var(--muted); font: 600 15px var(--display); padding: 10px 14px; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; display: flex; align-items: center; gap: 8px; }
+[role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
+.badge { background: var(--urgent); color: #fff; font: 600 11px var(--mono); border-radius: 999px; padding: 1px 7px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.panel h2 { font: 600 17px var(--display); margin: 0 0 4px; }
+.panel .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+@media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { border-left: 2px solid var(--line); padding-left: 12px; }
+.kpi b { display: block; font: 600 26px var(--display); font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12px; color: var(--muted); }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+@media (max-width: 980px) { .two { grid-template-columns: minmax(0, 1fr); } }
+h3 { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+.bar-row { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 2.6em; align-items: center; gap: 10px; font-size: 13px; margin-bottom: 7px; }
+.bar-track { height: 8px; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; transition: width .4s; }
+.bar-val { text-align: right; font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); font-size: 12px; }
+#trend svg { width: 100%; height: auto; display: block; }
+#trend .grid { stroke: var(--line); stroke-width: 1; }
+#trend .axis { fill: var(--muted); font: 10px var(--mono); }
+#trend .area { fill: var(--accent-soft); stroke: none; }
+#trend .line { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linejoin: round; }
+#trend .dot { fill: var(--accent); }
+#trend .exam { fill: var(--urgent-soft); }
+#trend .exam-label { fill: var(--urgent); }
+.privacy { margin-top: 18px; display: flex; gap: 10px; align-items: start; background: var(--calm-soft); color: var(--calm);
+  padding: 10px 12px; border-radius: 10px; font-size: 13px; }
+.alerts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.alert { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.alert.urgent { border-color: var(--urgent); background: var(--urgent-soft); }
+.alert-head { display: flex; justify-content: space-between; align-items: center; }
+.pill { font: 600 11px var(--mono); letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pill.urgent { background: var(--urgent); color: #fff; }
+.alert-title { font: 600 15px var(--display); margin: 6px 0 2px; }
+.alert-meta { color: var(--muted); }
+.alert-note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.empty { color: var(--muted); font-size: 14px; border: 1px dashed var(--line); border-radius: 10px; padding: 18px; }
+.how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 4px; }
+@media (max-width: 700px) { .how { grid-template-columns: minmax(0, 1fr); } }
+.how div { font-size: 13px; color: var(--muted); }
+.how b { display: block; color: var(--ink); font: 600 14px var(--display); margin-bottom: 2px; }
+@media (prefers-reduced-motion: reduce) { .bar-fill { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Sista <em>· ta grande sœur</em></h1>
+      <p class="lede">Une adolescente ou une jeune femme scanne un QR (école, université, centre de santé, lieu de travail) et parle de façon anonyme sur WhatsApp à Sista, une grande sœur toujours là pour l’écouter. Les conseils sont validés par une psychiatre ; les signaux de crise passent toujours à un humain.</p>
+    </div>
+    <span class="flag">Prototype · données fictives</span>
+  </header>
+
+  <div class="grid">
+    <section class="phone" aria-label="Conversation de l’utilisatrice">
+      <div class="phone-bar">
+        <div class="avatar" aria-hidden="true">S</div>
+        <div><b>Sista</b><small>Anonyme · chiffré</small></div>
+        <button class="ghost" id="reset" type="button">Recommencer</button>
+      </div>
+      <div id="thread" aria-live="polite"><div class="day">Aujourd’hui</div></div>
+      <div id="typing" hidden>Sista écrit…</div>
+      <div class="chips" aria-label="Réponses rapides">
+        <button class="chip" type="button" data-say="oui">oui</button>
+        <button class="chip" type="button" data-say="pas bien">pas bien</button>
+        <button class="chip" type="button" data-say="je suis trop stressée pour le BEPC">stress BEPC</button>
+        <button class="chip" type="button" data-say="les examens">les examens</button>
+        <button class="chip" type="button" data-say="quelqu’un menace de publier ma photo sur tiktok">photo TikTok</button>
+        <button class="chip" type="button" data-say="mon copain contrôle mon téléphone">copain jaloux</button>
+        <button class="chip" type="button" data-say="depuis la naissance de mon bébé je pleure tout le temps">après bébé</button>
+        <button class="chip" type="button" data-say="je veux parler à une vraie personne">vraie personne</button>
+        <button class="chip danger" type="button" data-say="j’ai envie de mourir">message de crise</button>
+      </div>
+      <form id="composer">
+        <label for="input" hidden>Message</label>
+        <input id="input" autocomplete="off" placeholder="Écris un message…">
+        <button class="send" type="submit">Envoyer</button>
+      </form>
+    </section>
+
+    <div class="side">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="true" type="button">Tableau de bord du site</button>
+        <button role="tab" id="tab-alerts" aria-controls="panel-alerts" aria-selected="false" type="button">Alertes équipe <span class="badge" id="alert-badge" hidden>0</span></button>
+      </div>
+
+      <section class="panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash">
+        <h2>Campus de démonstration · Ouagadougou</h2>
+        <p class="sub">8 semaines depuis la rentrée universitaire. Mis à jour en direct quand tu discutes à gauche.</p>
+        <div class="kpis">
+          <div class="kpi"><b id="kpi-sessions">—</b><span>conversations</span></div>
+          <div class="kpi"><b id="kpi-mood">—</b><span>humeur moyenne /5</span></div>
+          <div class="kpi"><b id="kpi-low">—</b><span>humeur basse (1–2)</span></div>
+          <div class="kpi"><b id="kpi-ref">—</b><span>demandes de rappel</span></div>
+        </div>
+        <div class="two">
+          <div><h3>Sujets abordés</h3><div id="topics"></div></div>
+          <div><h3>Humeur moyenne par semaine</h3><div id="trend"></div></div>
+        </div>
+        <div class="privacy">🔒 <span>Aucun message, nom ni numéro n’est stocké. Les chiffres inférieurs à 5 sont masqués (« &lt;5 ») pour que personne ne soit identifiable. Signaux de crise ce trimestre : <b id="crisis-count">—</b>.</span></div>
+      </section>
+
+      <section class="panel" role="tabpanel" id="panel-alerts" aria-labelledby="tab-alerts" hidden>
+        <h2>Alertes pour l’équipe d’astreinte</h2>
+        <p class="sub">Ce que voient la psychiatre et les référentes formées.</p>
+        <ul class="alerts" id="alerts"></ul>
+        <p class="empty" id="alerts-empty">Aucune alerte. Essaie « message de crise » ou « parler » dans la conversation.</p>
+      </section>
+
+      <section class="panel">
+        <h3>Garde-fous</h3>
+        <div class="how">
+          <div><b>Réponses validées</b>L’IA classe le message dans une liste fermée de sujets. Elle n’écrit jamais la réponse.</div>
+          <div><b>Crise sans IA</b>Des règles fixes repèrent les signaux de danger et alertent un humain, à chaque message.</div>
+          <div><b>Anonymat</b>Pas de nom, pas d’école, pas d’employeur. Le rappel par une référente se fait seulement avec son accord, sauf danger.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>/*BUNDLE*/</script>

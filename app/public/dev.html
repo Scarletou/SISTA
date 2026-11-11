@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sista · Test local</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/dev.js" defer></script>
+</head>
+<body>
+<main class="dev">
+  <h1>Test local <span class="muted">(sans WhatsApp)</span></h1>
+  <p class="notice">Cette page n’existe qu’en mode test. Elle simule une utilisatrice qui écrit à Sista. Ouvre la <a href="/console" target="_blank">console</a> dans un autre onglet pour voir les alertes arriver.</p>
+  <div class="field"><label for="from">Numéro simulé</label><input class="input" id="from" value="22670000001"></div>
+  <div class="thread" id="thread"></div>
+  <form class="composer" id="form">
+    <label for="text" hidden>Message</label>
+    <textarea id="text" placeholder="Commence par : SISTA CODE-DU-SITE"></textarea>
+    <button class="btn primary" type="submit">Envoyer</button>
+  </form>
+</main>
+</body>
+</html>

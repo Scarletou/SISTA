@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sista · Tableau de bord</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/common.js" defer></script>
+<script src="/static/dashboard.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Sista <span>· équipe</span></div>
+  <nav class="nav"><a href="/console" data-nav="console">Alertes</a><a href="/dashboard" data-nav="dashboard">Tableau de bord</a></nav>
+  <div class="who"><span id="who-name"></span><button class="btn" id="logout" type="button">Se déconnecter</button></div>
+</header>
+<main class="page">
+  <div class="page-head">
+    <div>
+      <h1 id="site-name">Tableau de bord</h1>
+      <p class="muted" id="site-type"></p>
+    </div>
+    <div class="field" id="picker" hidden>
+      <label for="site">Site</label>
+      <select id="site"></select>
+    </div>
+  </div>
+  <p class="empty" id="no-site" hidden>Aucun site pour l’instant. Ajoute-en un avec <span class="mono">npm run admin -- add-site</span>.</p>
+  <section class="panel" id="panel" hidden>
+    <div class="kpis">
+      <div class="kpi"><b id="kpi-sessions">—</b><span>conversations</span></div>
+      <div class="kpi"><b id="kpi-mood">—</b><span>humeur moyenne /5</span></div>
+      <div class="kpi"><b id="kpi-low">—</b><span>humeur basse (1–2)</span></div>
+      <div class="kpi"><b id="kpi-ref">—</b><span>demandes de rappel</span></div>
+    </div>
+    <div class="two">
+      <div><h3>Sujets abordés</h3><div id="topics"></div></div>
+      <div><h3>Humeur moyenne par semaine</h3><div class="trend" id="trend"></div></div>
+    </div>
+    <p class="privacy">🔒 Aucun message, nom ni numéro n’apparaît ici. Les chiffres inférieurs à 5 sont masqués (« &lt;5 ») pour que personne ne soit identifiable. Signaux de crise : <b id="crisis">—</b>.</p>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "sista",
+  "version": "0.2.0",
+  "description": "A caring big sister in your pocket: anonymous, clinician-validated listening space for girls and young women, reached by QR code and delivered over WhatsApp.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning app/server.js",
+    "setup": "node scripts/setup.js",
+    "admin": "node --disable-warning=ExperimentalWarning scripts/admin.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "chat": "node server/cli.js",
+    "build:demo": "node demo/build.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "qrcode": "^1.5.4"
+  }
+}

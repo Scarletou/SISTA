@@ -1,0 +1,371 @@
+<title>Sista</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone on the left (what the student sees), team & school views on the right. */
+:root {
+  --bg: #F6F3F5;          /* warm neutral with a hibiscus bias */
+  --surface: #FFFFFF;
+  --ink: #221A26;
+  --muted: #6E6271;
+  --line: #E5DCE3;
+  --accent: #9B2C5A;      /* bissap / hibiscus */
+  --accent-soft: #F5E4EC;
+  --chat-bg: #EFE8EC;
+  --bubble-in: #FFFFFF;
+  --bubble-out: #F2D9E5;
+  --urgent: #B42318;
+  --urgent-soft: #FDE8E6;
+  --calm: #2E6B57;
+  --calm-soft: #E3F1EB;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171219; --surface: #211a24; --ink: #F3ECF1; --muted: #B3A6B0; --line: #3A2F3D;
+  --accent: #E07AA5; --accent-soft: #3A2030; --chat-bg: #1C161F; --bubble-in: #2A222D; --bubble-out: #4A2539;
+  --urgent: #FF8A7A; --urgent-soft: #3D1E1B; --calm: #7FCFAF; --calm-soft: #1D3029; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #171219; --surface: #211a24; --ink: #F3ECF1; --muted: #B3A6B0; --line: #3A2F3D;
+  --accent: #E07AA5; --accent-soft: #3A2030; --chat-bg: #1C161F; --bubble-in: #2A222D; --bubble-out: #4A2539;
+  --urgent: #FF8A7A; --urgent-soft: #3D1E1B; --calm: #7FCFAF; --calm-soft: #1D3029; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; margin-bottom: 24px; }
+h1 { font: 700 clamp(28px, 4vw, 40px)/1.05 var(--display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.flag { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent);
+  background: var(--accent-soft); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+
+.grid { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Phone */
+.phone { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
+  box-shadow: 0 18px 40px -24px rgba(60, 20, 45, .35); display: flex; flex-direction: column; height: 680px; max-height: 82vh; }
+.phone-bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center;
+  font: 700 16px var(--display); }
+.phone-bar b { display: block; font: 600 15px var(--display); }
+.phone-bar small { color: var(--calm); font-size: 12px; }
+.phone-bar button { margin-left: auto; }
+#thread { flex: 1; overflow-y: auto; background: var(--chat-bg); padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; }
+.day { align-self: center; font: 500 11px var(--mono); color: var(--muted); background: var(--surface); padding: 3px 10px; border-radius: 10px; margin-bottom: 4px; }
+.msg { display: flex; }
+.msg.out { justify-content: flex-end; }
+.bubble { max-width: 84%; padding: 8px 11px 6px; border-radius: 12px; background: var(--bubble-in); font-size: 14px; line-height: 1.45;
+  box-shadow: 0 1px 0 rgba(0,0,0,.06); overflow-wrap: anywhere; }
+.msg.in .bubble { border-top-left-radius: 4px; }
+.msg.out .bubble { background: var(--bubble-out); border-top-right-radius: 4px; }
+.time { display: block; text-align: right; font: 10px var(--mono); color: var(--muted); margin-top: 2px; }
+#typing { font: 12px var(--mono); color: var(--muted); padding-left: 6px; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 10px 0; background: var(--surface); }
+.chip { flex: none; font: 500 12px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  padding: 5px 10px; border-radius: 999px; cursor: pointer; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip.danger { border-color: var(--urgent); color: var(--urgent); }
+#composer { display: flex; gap: 8px; padding: 10px; background: var(--surface); }
+#input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; font: 14px var(--body);
+  background: var(--bg); color: var(--ink); }
+.send { border: 0; background: var(--accent); color: #fff; border-radius: 999px; padding: 0 16px; font: 700 14px var(--body); cursor: pointer; }
+.ghost { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 8px; padding: 4px 10px; font: 12px var(--body); cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Right column */
+.side { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+[role=tab] { border: 0; background: none; color: var(--muted); font: 600 15px var(--display); padding: 10px 14px; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; display: flex; align-items: center; gap: 8px; }
+[role=tab][aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
+.badge { background: var(--urgent); color: #fff; font: 600 11px var(--mono); border-radius: 999px; padding: 1px 7px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.panel h2 { font: 600 17px var(--display); margin: 0 0 4px; }
+.panel .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+@media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { border-left: 2px solid var(--line); padding-left: 12px; }
+.kpi b { display: block; font: 600 26px var(--display); font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12px; color: var(--muted); }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+@media (max-width: 980px) { .two { grid-template-columns: minmax(0, 1fr); } }
+h3 { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+.bar-row { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 2.6em; align-items: center; gap: 10px; font-size: 13px; margin-bottom: 7px; }
+.bar-track { height: 8px; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; transition: width .4s; }
+.bar-val { text-align: right; font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); font-size: 12px; }
+#trend svg { width: 100%; height: auto; display: block; }
+#trend .grid { stroke: var(--line); stroke-width: 1; }
+#trend .axis { fill: var(--muted); font: 10px var(--mono); }
+#trend .area { fill: var(--accent-soft); stroke: none; }
+#trend .line { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linejoin: round; }
+#trend .dot { fill: var(--accent); }
+#trend .exam { fill: var(--urgent-soft); }
+#trend .exam-label { fill: var(--urgent); }
+.privacy { margin-top: 18px; display: flex; gap: 10px; align-items: start; background: var(--calm-soft); color: var(--calm);
+  padding: 10px 12px; border-radius: 10px; font-size: 13px; }
+.alerts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.alert { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.alert.urgent { border-color: var(--urgent); background: var(--urgent-soft); }
+.alert-head { display: flex; justify-content: space-between; align-items: center; }
+.pill { font: 600 11px var(--mono); letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pill.urgent { background: var(--urgent); color: #fff; }
+.alert-title { font: 600 15px var(--display); margin: 6px 0 2px; }
+.alert-meta { color: var(--muted); }
+.alert-note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.empty { color: var(--muted); font-size: 14px; border: 1px dashed var(--line); border-radius: 10px; padding: 18px; }
+.how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 4px; }
+@media (max-width: 700px) { .how { grid-template-columns: minmax(0, 1fr); } }
+.how div { font-size: 13px; color: var(--muted); }
+.how b { display: block; color: var(--ink); font: 600 14px var(--display); margin-bottom: 2px; }
+@media (prefers-reduced-motion: reduce) { .bar-fill { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Sista <em>· ta grande sœur</em></h1>
+      <p class="lede">Une adolescente ou une jeune femme scanne un QR (école, université, centre de santé, lieu de travail) et parle de façon anonyme sur WhatsApp à Sista, une grande sœur toujours là pour l’écouter. Les conseils sont validés par une psychiatre ; les signaux de crise passent toujours à un humain.</p>
+    </div>
+    <span class="flag">Prototype · données fictives</span>
+  </header>
+
+  <div class="grid">
+    <section class="phone" aria-label="Conversation de l’utilisatrice">
+      <div class="phone-bar">
+        <div class="avatar" aria-hidden="true">S</div>
+        <div><b>Sista</b><small>Anonyme · chiffré</small></div>
+        <button class="ghost" id="reset" type="button">Recommencer</button>
+      </div>
+      <div id="thread" aria-live="polite"><div class="day">Aujourd’hui</div></div>
+      <div id="typing" hidden>Sista écrit…</div>
+      <div class="chips" aria-label="Réponses rapides">
+        <button class="chip" type="button" data-say="oui">oui</button>
+        <button class="chip" type="button" data-say="pas bien">pas bien</button>
+        <button class="chip" type="button" data-say="je suis trop stressée pour le BEPC">stress BEPC</button>
+        <button class="chip" type="button" data-say="les examens">les examens</button>
+        <button class="chip" type="button" data-say="quelqu’un menace de publier ma photo sur tiktok">photo TikTok</button>
+        <button class="chip" type="button" data-say="mon copain contrôle mon téléphone">copain jaloux</button>
+        <button class="chip" type="button" data-say="depuis la naissance de mon bébé je pleure tout le temps">après bébé</button>
+        <button class="chip" type="button" data-say="je veux parler à une vraie personne">vraie personne</button>
+        <button class="chip danger" type="button" data-say="j’ai envie de mourir">message de crise</button>
+      </div>
+      <form id="composer">
+        <label for="input" hidden>Message</label>
+        <input id="input" autocomplete="off" placeholder="Écris un message…">
+        <button class="send" type="submit">Envoyer</button>
+      </form>
+    </section>
+
+    <div class="side">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="true" type="button">Tableau de bord du site</button>
+        <button role="tab" id="tab-alerts" aria-controls="panel-alerts" aria-selected="false" type="button">Alertes équipe <span class="badge" id="alert-badge" hidden>0</span></button>
+      </div>
+
+      <section class="panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash">
+        <h2>Campus de démonstration · Ouagadougou</h2>
+        <p class="sub">8 semaines depuis la rentrée universitaire. Mis à jour en direct quand tu discutes à gauche.</p>
+        <div class="kpis">
+          <div class="kpi"><b id="kpi-sessions">—</b><span>conversations</span></div>
+          <div class="kpi"><b id="kpi-mood">—</b><span>humeur moyenne /5</span></div>
+          <div class="kpi"><b id="kpi-low">—</b><span>humeur basse (1–2)</span></div>
+          <div class="kpi"><b id="kpi-ref">—</b><span>demandes de rappel</span></div>
+        </div>
+        <div class="two">
+          <div><h3>Sujets abordés</h3><div id="topics"></div></div>
+          <div><h3>Humeur moyenne par semaine</h3><div id="trend"></div></div>
+        </div>
+        <div class="privacy">🔒 <span>Aucun message, nom ni numéro n’est stocké. Les chiffres inférieurs à 5 sont masqués (« &lt;5 ») pour que personne ne soit identifiable. Signaux de crise ce trimestre : <b id="crisis-count">—</b>.</span></div>
+      </section>
+
+      <section class="panel" role="tabpanel" id="panel-alerts" aria-labelledby="tab-alerts" hidden>
+        <h2>Alertes pour l’équipe d’astreinte</h2>
+        <p class="sub">Ce que voient la psychiatre et les référentes formées.</p>
+        <ul class="alerts" id="alerts"></ul>
+        <p class="empty" id="alerts-empty">Aucune alerte. Essaie « message de crise » ou « parler » dans la conversation.</p>
+      </section>
+
+      <section class="panel">
+        <h3>Garde-fous</h3>
+        <div class="how">
+          <div><b>Réponses validées</b>L’IA classe le message dans une liste fermée de sujets. Elle n’écrit jamais la réponse.</div>
+          <div><b>Crise sans IA</b>Des règles fixes repèrent les signaux de danger et alertent un humain, à chaque message.</div>
+          <div><b>Anonymat</b>Pas de nom, pas d’école, pas d’employeur. Le rappel par une référente se fait seulement avec son accord, sauf danger.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>(()=>{var T={fr:{welcome:`Coucou ma s\u0153ur \u{1F44B} Moi c'est *Sista*, ta grande s\u0153ur toujours l\xE0 pour t'\xE9couter.
+
+\u{1F512} Ici c'est *anonyme* : pas besoin de me dire ton nom, ni ton \xE9cole, ni ton travail.
+\u{1F9D1}\u200D\u2695\uFE0F Mes conseils sont accompagn\xE9s par des professionnels de la sant\xE9.
+\u{1F91D} Je suis une assistante automatique, mais tu n'es pas seule : une vraie \xE9quipe est derri\xE8re moi, pr\xEAte \xE0 prendre le relais si tu en as besoin.
+\u{1F6A8} Si tu es en danger, appelle le *116* (moins de 18 ans) ou le *80 00 12 87* (gratuit).
+
+On discute ? R\xE9ponds *oui* \u{1F642}`,consentNeeded:"Pas de souci, je ne bouge pas \u{1F49B} \xC9cris *oui* quand tu veux qu'on discute. Si tu es en danger : *116* ou *80 00 12 87*.",consentReminder:"Coucou ma s\u0153ur \u{1F44B} Pour qu'on commence \xE0 discuter, r\xE9ponds simplement *oui* \u{1F642} Et si tu es en danger : *116* ou *80 00 12 87*.",moodAsk:"Super \u{1F642} Dis-moi, comment tu te sens aujourd'hui ? Un mot suffit, ou une note de 1 (tr\xE8s mal) \xE0 5 (tr\xE8s bien).",moodLow:"Merci de me le dire, \xE7a demande du courage. On est ensemble.",moodMid:"D'accord, merci de me le dire.",moodHigh:"\xC7a me fait plaisir \u{1F60A}",openQuestion:"Qu'est-ce qui se passe pour toi en ce moment ? Raconte-moi avec tes mots, je t'\xE9coute.",openQuestionHigh:"Tu avais envie de parler de quelque chose ? Raconte-moi, je t'\xE9coute.",listenPrompt:"Je t'\xE9coute \u{1F49B} Prends ton temps, raconte-moi ce qui s'est pass\xE9. Je suis l\xE0, je ne te juge pas.",listenPrompt2:"Je veux \xEAtre s\xFBre de bien te comprendre, ma s\u0153ur \u{1F64F} C'est plut\xF4t \xE0 l'\xE9cole, \xE0 la fac ou au travail ? \xC0 la maison ou avec la famille ? Avec ton copain ou ton mari ? Sur WhatsApp, Facebook ou TikTok ? Avec ton corps ? Raconte-moi comme \xE7a vient, il n'y a pas de mauvaise fa\xE7on de le dire.",notSure:`Je n'arrive pas encore \xE0 bien comprendre, et je ne veux pas te r\xE9pondre \xE0 c\xF4t\xE9 \u{1F64F} Mais je suis toujours l\xE0.
+
+Tu veux que je demande \xE0 une *vraie personne* de l'\xE9quipe de te recontacter ici ? R\xE9ponds *oui* ou *non*. Si tu dis non, on continue toutes les deux.`,help:`Tu peux me parler de tout ce qui te p\xE8se : le stress du CEP, du BEPC, du BAC, des partiels ou du travail, les moqueries, un chantage sur WhatsApp ou Facebook, ton corps et tes r\xE8gles, la famille ou la belle-famille, le mariage, ton couple, une grossesse ou ton b\xE9b\xE9, la tristesse\u2026
+
+Dis-moi simplement ce qui se passe.`,keepGoing:"Vas-y, je t'\xE9coute \u{1F49B}",stayWithYou:"Mais si, je veux parler avec toi, ma s\u0153ur \u{1F49B} Je suis l\xE0, et on continue toutes les deux. Raconte-moi.",tipsOffer:"Tu veux que je te partage quelques petites choses qui aident souvent dans ce genre de situation ? Ou tu pr\xE9f\xE8res qu'on continue juste \xE0 parler ?",afterTips:"Voil\xE0 \u{1F49B} Et toi, qu'est-ce que tu en penses ? On continue \xE0 en parler ?",acks:["Merci de me le dire.","Je vois. Ce n'est pas facile, courage ma s\u0153ur.","D'accord, je comprends mieux.","Merci pour ta confiance, on est ensemble."],nextStep:"Tu veux qu'on continue \xE0 en parler, que je te mette en contact avec une *vraie personne*, ou parler d'autre chose ?",closing:"Avec plaisir, ma s\u0153ur \u{1F49B} Courage, \xE7a va aller. Je suis l\xE0 quand tu veux, \xE9cris-moi n'importe quand.",topics:{stress:{open:"Le stress, \xE7a peut vraiment peser \u{1F614} C'est quoi qui te stresse le plus en ce moment : le BEPC, le BAC, les partiels, le travail, l'argent, ou autre chose ?",tips:`\u{1F4A1} Quelques trucs qui aident beaucoup de filles :
+\u2022 D\xE9coupe tes r\xE9visions en petits morceaux de 25 minutes, avec une pause entre chaque
+\u2022 R\xE9vise avec une copine s\xE9rieuse : \xE0 deux, on se motive et on s'explique les le\xE7ons
+\u2022 Si le courant coupe le soir, dors t\xF4t et r\xE9vise au lever : la t\xEAte est fra\xEEche le matin
+\u2022 Dors assez, m\xEAme quand l'examen approche : ton cerveau retient mieux
+\u2022 Respirer lentement calme le corps en une minute`,exerciseOffer:"Tu veux qu'on fasse un petit exercice de respiration ensemble, maintenant ?",exercise:`Ok, on y va \u{1F33F}
+
+Installe-toi o\xF9 tu peux, m\xEAme assise sur ton lit ou dans la cour. Pas besoin d'\xEAtre seule.
+\u2022 Inspire par le nez en comptant 1, 2, 3, 4
+\u2022 Souffle doucement par la bouche en comptant 1, 2, 3, 4, 5, 6
+
+Fais-le 5 fois, tranquillement. \xC9cris-moi quand c'est fait.`,exerciseDone:"Bravo \u{1F44F} Tu peux le refaire d\xE8s que le stress monte, avant d'entrer en salle d'examen par exemple. Comment tu te sens maintenant ?"},bullying:{open:"Je suis d\xE9sol\xE9e que tu vives \xE7a. Personne n'a le droit de te faire du mal, et ce n'est *pas* de ta faute. \xC7a se passe o\xF9 : \xE0 l'\xE9cole, \xE0 la fac, au travail, dans le quartier ?",tips:`\u{1F4A1} Ce qui aide :
+\u2022 En parler \xE0 une personne de confiance : ta maman, une tante, une grande s\u0153ur, une enseignante, une coll\xE8gue s\xFBre
+\u2022 Rester avec tes copines dans les moments o\xF9 \xE7a arrive
+\u2022 Noter ce qui se passe : la date, le lieu, qui \xE9tait l\xE0. \xC7a servira si tu d\xE9cides de le signaler`},online:{open:"Ce qui se passe sur WhatsApp, Facebook ou TikTok peut faire tr\xE8s peur, je sais. Raconte-moi : quelqu'un te harc\xE8le, te menace, ou a partag\xE9 quelque chose sur toi ?",tips:`\u{1F4A1} Tout de suite :
+\u2022 Ne r\xE9ponds pas et n'envoie rien, ni photo ni argent
+\u2022 Ne paie *jamais*, m\xEAme par Orange Money ou Moov Money : souvent, le chantage continue apr\xE8s
+\u2022 Fais des captures d'\xE9cran
+\u2022 Bloque et signale le compte
+
+Si quelqu'un te menace avec une photo, ce n'est *pas* de ta faute. Tu n'es pas seule face \xE0 \xE7a.`},periods:{open:"Tu peux tout me demander sur ton corps, sans honte \u{1F338} Qu'est-ce qui te pr\xE9occupe : la douleur, tes r\xE8gles qui changent, les serviettes, ou autre chose ?",tips:`\u{1F4A1} \xC0 savoir :
+\u2022 Avoir mal au ventre pendant les r\xE8gles est fr\xE9quent ; un linge chaud sur le ventre ou le repos peuvent aider
+\u2022 Des r\xE8gles un peu irr\xE9guli\xE8res, c'est courant, surtout les premi\xE8res ann\xE9es
+\u2022 Si tu n'as pas toujours de quoi acheter des serviettes, demande \xE0 l'infirmerie de ton \xE9cole ou \xE0 une association de femmes s'il y a de l'aide
+\u2022 Si la douleur t'emp\xEAche d'aller en cours ou au travail chaque mois, ou si quelque chose t'inqui\xE8te, va au CSPS ou parles-en \xE0 l'infirmi\xE8re`},family:{open:"Les tensions dans la famille, \xE7a p\xE8se lourd \u{1F49B} C'est avec qui que c'est difficile en ce moment : tes parents, ta belle-famille, un oncle ou une tante, ton mari ?",tips:`\u{1F4A1} Ce qui peut aider :
+\u2022 Trouver une personne de confiance en dehors de la maison pour souffler : une tante, une grande s\u0153ur, la maman d'une copine
+\u2022 \xC9crire ce que tu ressens, juste pour toi
+\u2022 Si on te force \xE0 quelque chose (mariage, arr\xEAter l'\xE9cole, travail), appelle le *116* (moins de 18 ans) ou le *80 00 12 87*`},couple:{open:"Je t'\xE9coute. Une relation doit te faire du bien. Qu'est-ce qui se passe avec lui ?",tips:`\u{1F4A1} Fais attention si ton copain ou ton mari :
+\u2022 fouille ton t\xE9l\xE9phone, contr\xF4le tes sorties ou ton argent
+\u2022 t'insulte, te rabaisse ou te fait peur
+\u2022 t'oblige \xE0 faire des choses que tu ne veux pas
+
+\xC7a, ce n'est *pas* de l'amour, et ce n'est *pas* de ta faute. Garde toujours le num\xE9ro d'une personne de confiance. Le *80 00 12 87* est gratuit et confidentiel.`},maternity:{open:"\xCAtre enceinte ou devenir maman, c'est beaucoup d'\xE9motions \xE0 la fois \u{1F49B} Tu es enceinte en ce moment, ou ton b\xE9b\xE9 est d\xE9j\xE0 n\xE9 ?",tips:`\u{1F4A1} \xC0 savoir :
+\u2022 C'est normal de ne pas toujours aller bien, m\xEAme quand on aime son b\xE9b\xE9
+\u2022 Pleurer ou \xEAtre \xE0 fleur de peau les premiers jours apr\xE8s la naissance est fr\xE9quent
+\u2022 Laisse ta maman, une tante ou tes copines t'aider avec le b\xE9b\xE9, le temps de te reposer : accepter de l'aide n'est pas une faiblesse
+\u2022 Si la tristesse dure plus de 2 semaines, ou si tu n'arrives plus \xE0 t'occuper de toi ou du b\xE9b\xE9, parles-en vite \xE0 la sage-femme ou au CSPS`},sadness:{open:"Je suis l\xE0 \u{1F49B} \xC7a fait longtemps que tu te sens comme \xE7a ?",tips:`\u{1F4A1} Des petits pas qui peuvent aider :
+\u2022 Parler \xE0 une personne que tu aimes bien, m\xEAme 5 minutes
+\u2022 Sortir un peu : marcher jusqu'au march\xE9 ou chez une copine, prendre l'air
+\u2022 Faire une petite chose qui te plaisait avant : la musique, la couture, la cuisine, le sport\u2026
+
+Et si la tristesse est l\xE0 presque tous les jours depuis plus de 2 semaines, \xE7a vaut la peine d'en parler \xE0 une vraie personne.`}},referralOffer:`Je peux demander \xE0 une *r\xE9f\xE9rente form\xE9e* ou \xE0 une *professionnelle de sant\xE9* de l'\xE9quipe de te recontacter ici, sur WhatsApp.
+
+\u{1F512} Elles verront seulement ce num\xE9ro, pas nos anciens messages.
+
+Tu veux ? R\xE9ponds *oui* ou *non*.`,referralConfirmed:"C'est not\xE9 \u2705 Une personne de confiance va te recontacter ici. En attendant, si tu es en danger : *116* ou *80 00 12 87*.",referralDeclined:"D'accord, c'est toi qui d\xE9cides \u{1F49B} Je reste l\xE0. Tu veux me parler d'autre chose ?",concern:`Oh ma s\u0153ur\u2026 ce que tu vis a l'air vraiment lourd. Merci de me le confier, je sais que ce n'est pas facile \u{1F49B}
+
+Je suis l\xE0 pour t'\xE9couter, sans te juger. Tu veux me raconter ce qui se passe ?
+
+Et si \xE0 un moment tu pr\xE9f\xE8res parler \xE0 une vraie personne de l'\xE9quipe, dis-le-moi simplement, je m'en occupe.`,concernFollow:["Je t'entends, et tout ce que tu ressens est l\xE9gitime \u{1F49B} Continue, je t'\xE9coute.","Merci de me faire confiance. Tu n'as pas \xE0 porter tout \xE7a seule. Qu'est-ce qui te p\xE8se le plus en ce moment ?","Je suis toujours l\xE0. Et quand tu voudras, je peux demander \xE0 quelqu'un de l'\xE9quipe de te parler : dis juste *une vraie personne*."],urgent:`Ma s\u0153ur, merci de m'avoir \xE9crit \xE7a. Je sais que \xE7a demande beaucoup de courage \u{1F49B}
+
+Ce que tu ressens compte, et *ta vie compte*. Tu n'es pas seule : je suis l\xE0 avec toi, je ne pars pas.`,urgentResources:`Je pr\xE9viens tout de suite quelqu'un de l'\xE9quipe pour qu'une vraie personne te recontacte ici.
+
+Et si tu te sens en danger maintenant, tu peux appeler gratuitement, \xE0 tout moment :
+\u2022 *116* si tu as moins de 18 ans
+\u2022 *80 00 12 87* pour les violences faites aux femmes
+\u2022 Police *17*, pompiers *18*
+
+Dis-moi juste une chose : est-ce que tu es en s\xE9curit\xE9 l\xE0 o\xF9 tu es, en ce moment ?`,urgentShort:"Je suis l\xE0 avec toi \u{1F49B} L'\xE9quipe est pr\xE9venue et va te recontacter ici. Si tu es en danger maintenant : *116* (moins de 18 ans), *80 00 12 87*, police *17*, pompiers *18*.",safeYes:"Je suis soulag\xE9e de le lire \u{1F49B} Tu veux me raconter ce qui se passe ? Prends ton temps, je t'\xE9coute.",safeNo:`D'accord, merci de me le dire. Si tu peux, va tout de suite pr\xE8s d'autres personnes : une voisine, une tante, une amie, un endroit o\xF9 il y a du monde. Si quelqu'un te menace, appelle le *17*.
+
+L'\xE9quipe est pr\xE9venue. Je reste l\xE0 avec toi, continue de m'\xE9crire \u{1F49B}`,safeAsk:"Je t'entends \u{1F49B} Dis-moi juste : est-ce que tu es en s\xE9curit\xE9 l\xE0 o\xF9 tu es, en ce moment ?",crisisSupport:["Je t'entends. Ce que tu vis est tr\xE8s lourd, et tu n'as pas \xE0 le porter seule \u{1F49B}","Merci de me faire confiance. Tu peux tout me dire ici, je ne te juge pas.","Je suis toujours l\xE0. Quelqu'un de l'\xE9quipe va te parler bient\xF4t, et en attendant on continue toutes les deux.","On respire ensemble ? Inspire doucement par le nez\u2026 et souffle longtemps par la bouche. Encore une fois. Je suis l\xE0.","Tu as bien fait de m'\xE9crire. Est-ce qu'il y a quelqu'un pr\xE8s de toi en ce moment, une personne en qui tu as confiance ?"],goodbye:"Prends soin de toi, ma s\u0153ur \u{1F49B} Reviens quand tu veux en scannant le QR ou en \xE9crivant *Sista*.",unsupported:"Pour l'instant je ne lis que les messages \xE9crits \u{1F64F} \xC9cris-moi avec tes mots. Si tu es en danger : *116* ou *80 00 12 87*.",humanPrefix:e=>`\u{1F469}\u{1F3FE} *${e}, de l'\xE9quipe Sista* :
+`,humanClosed:"La conversation avec l'\xE9quipe est termin\xE9e. Merci pour ta confiance \u{1F49B} Je reste l\xE0, \xE9cris-moi quand tu veux."},en:{welcome:`Hey sis \u{1F44B} I'm *Sista*, your big sister who is always here to listen.
+
+\u{1F512} It's *anonymous* here: no need to tell me your name, school or workplace.
+\u{1F9D1}\u200D\u2695\uFE0F My advice is backed by health professionals.
+\u{1F91D} I'm an automated assistant, but you're not alone: a real team is behind me, ready to step in if you need it.
+\u{1F6A8} If you're in danger, call *116* (under 18) or *80 00 12 87* (free).
+
+Shall we chat? Reply *yes* \u{1F642}`,consentNeeded:"No problem, I'm right here \u{1F49B} Type *yes* whenever you want to chat. In danger: *116* or *80 00 12 87*.",consentReminder:"Hey sis \u{1F44B} To start chatting, just reply *yes* \u{1F642} And if you're in danger: *116* or *80 00 12 87*.",moodAsk:"Great \u{1F642} Tell me, how are you feeling today? One word is enough, or a score from 1 (very bad) to 5 (very good).",moodLow:"Thank you for telling me, that takes courage.",moodMid:"Okay, thanks for telling me.",moodHigh:"Glad to hear it \u{1F60A}",openQuestion:"What's going on for you right now? Tell me in your own words, I'm listening.",openQuestionHigh:"Was there something you wanted to talk about? Tell me, I'm listening.",listenPrompt:"I'm listening \u{1F49B} Take your time, tell me what happened. I'm here, no judgement.",listenPrompt2:"I want to be sure I understand you, sis \u{1F64F} Is it at school, university or work? At home or with family? With your boyfriend or husband? On WhatsApp, Facebook or TikTok? About your body? Tell me however it comes, there's no wrong way to say it.",notSure:`I can't quite understand yet, and I don't want to answer beside the point \u{1F64F} But I'm still here.
+
+Would you like me to ask a *real person* from the team to contact you here? Reply *yes* or *no*. If you say no, we keep going together.`,help:`You can talk to me about anything weighing on you: exam or work stress, teasing, a problem online, your body and periods, your family, your relationship, a pregnancy or your baby, sadness\u2026
+
+Just tell me what's going on.`,keepGoing:"Go ahead, I'm listening \u{1F49B}",stayWithYou:"Of course I want to talk with you, sis \u{1F49B} I'm here, and we keep going together. Tell me.",tipsOffer:"Would you like me to share a few small things that often help in this kind of situation? Or would you rather we just keep talking?",afterTips:"There you go \u{1F49B} What do you think? Shall we keep talking about it?",acks:["Thank you for telling me.","I see. That's not easy.","Okay, I understand better.","Thank you for trusting me."],nextStep:"Would you like to keep talking about it, be connected with a *real person*, or talk about something else?",closing:"Anytime, sis \u{1F49B} I'm here whenever you need. Write to me anytime.",topics:{stress:{open:"Stress can really weigh on you \u{1F614} What's stressing you most right now: the BEPC, the BAC, university exams, work, money, or something else?",tips:`\u{1F4A1} A few things that help many girls:
+\u2022 Split what's ahead into 25-minute blocks, with a break between each
+\u2022 Sleep enough, even when the deadline is close: your brain remembers better
+\u2022 Slow breathing calms your body in one minute`,exerciseOffer:"Would you like to do a short breathing exercise together, right now?",exercise:`Okay, let's go \u{1F33F}
+
+Get comfortable.
+\u2022 Breathe in through your nose, counting 1, 2, 3, 4
+\u2022 Breathe out gently through your mouth, counting 1, 2, 3, 4, 5, 6
+
+Do it 5 times, slowly. Write to me when you're done.`,exerciseDone:"Well done \u{1F44F} You can do it again whenever stress rises, before an exam for example. How do you feel now?"},bullying:{open:"I'm sorry you're going through this. Nobody has the right to hurt you, and it's *not* your fault. Where does it happen: at school, at work, in your neighbourhood?",tips:`\u{1F4A1} What helps:
+\u2022 Tell a trusted person (a referent, a parent, a safe colleague)
+\u2022 Stay with others when it tends to happen
+\u2022 Write down what happens: date, place, who was there. It helps if you decide to report it`},online:{open:"What happens online can be really scary, I know. Tell me: is someone harassing you, threatening you, or sharing something about you?",tips:`\u{1F4A1} Right now:
+\u2022 Don't reply and don't send anything, no photos, no money
+\u2022 *Never* pay, even by Orange Money or Moov Money: blackmail often continues afterwards
+\u2022 Take screenshots
+\u2022 Block and report the account
+
+If someone threatens you with a photo, it's *not* your fault. You're not alone in this.`},periods:{open:"You can ask me anything about your body, no shame \u{1F338} What's worrying you: pain, periods that change, or something else?",tips:`\u{1F4A1} Good to know:
+\u2022 Period cramps are common; a warm cloth on your belly or rest can help
+\u2022 Slightly irregular periods are common, especially in the first years
+\u2022 If pain keeps you from class or work every month, or something worries you, go to the health centre (CSPS) or see the nurse`},family:{open:"Tension at home weighs a lot \u{1F49B} Who is it difficult with right now?",tips:`\u{1F4A1} What can help:
+\u2022 Find a trusted person outside home, to breathe
+\u2022 Write down how you feel, just for you
+\u2022 If you're forced into something (marriage, work), call *116* (under 18) or *80 00 12 87*`},couple:{open:"I'm listening. A relationship should make you feel good. What's happening with him?",tips:`\u{1F4A1} Be careful if your partner:
+\u2022 controls your phone, outings or money
+\u2022 insults you, puts you down or scares you
+\u2022 forces you to do things you don't want
+
+That is *not* love, and it's *not* your fault. *80 00 12 87* is free and confidential.`},maternity:{open:"Being pregnant or becoming a mum brings a lot of emotions at once \u{1F49B} Are you pregnant right now, or is your baby already born?",tips:`\u{1F4A1} Good to know:
+\u2022 It's normal not to feel fine all the time, even when you love your baby
+\u2022 Crying or feeling fragile in the first days after birth is common
+\u2022 If sadness lasts more than 2 weeks, or you can't take care of yourself or the baby, talk to the midwife or the health centre (CSPS) soon
+\u2022 Accepting help is not a weakness`},sadness:{open:"I'm here \u{1F49B} Have you been feeling like this for a long time?",tips:`\u{1F4A1} Small steps that can help:
+\u2022 Talk to someone you like, even for 5 minutes
+\u2022 Walk outside in daylight
+\u2022 Do one small thing you used to enjoy
+
+And if sadness is there almost every day for more than 2 weeks, it's worth talking to a real person.`}},referralOffer:`I can ask a *trained referent* or a *health professional* from the team to contact you back here, on WhatsApp.
+
+\u{1F512} They only see this number, not our past messages.
+
+Would you like that? Reply *yes* or *no*.`,referralConfirmed:"Noted \u2705 A trusted person will contact you here. Meanwhile, if you're in danger: *116* or *80 00 12 87*.",referralDeclined:"Okay, it's your choice \u{1F49B} I'm still here. Want to talk about something else?",concern:`Oh sis\u2026 what you're going through sounds really heavy. Thank you for trusting me with it, I know it isn't easy \u{1F49B}
+
+I'm here to listen, no judgement. Do you want to tell me what's going on?
+
+And if at any point you'd rather talk to a real person from the team, just tell me and I'll arrange it.`,concernFollow:["I hear you, and everything you feel is valid \u{1F49B} Go on, I'm listening.","Thank you for trusting me. You don't have to carry all this alone. What weighs on you most right now?","I'm still here. And whenever you want, I can ask someone from the team to talk with you: just say *a real person*."],urgent:`Sis, thank you for writing this to me. I know it takes a lot of courage \u{1F49B}
+
+What you feel matters, and *your life matters*. You're not alone: I'm here with you, I'm not going anywhere.`,urgentResources:`I'm alerting someone from the team right now so a real person contacts you here.
+
+And if you feel in danger now, you can call for free, anytime:
+\u2022 *116* if you are under 18
+\u2022 *80 00 12 87* for violence against women
+\u2022 Police *17*, fire brigade *18*
+
+Just tell me one thing: are you safe where you are, right now?`,urgentShort:"I'm here with you \u{1F49B} The team has been alerted and will contact you here. If you're in danger now: *116* (under 18), *80 00 12 87*, police *17*, fire brigade *18*.",safeYes:"I'm relieved to read that \u{1F49B} Do you want to tell me what's going on? Take your time, I'm listening.",safeNo:`Okay, thank you for telling me. If you can, go right now to be near other people: a neighbour, an aunt, a friend, somewhere with people around. If someone is threatening you, call *17*.
+
+The team has been alerted. I'm staying with you, keep writing to me \u{1F49B}`,safeAsk:"I hear you \u{1F49B} Just tell me: are you safe where you are, right now?",crisisSupport:["I hear you. What you're living is very heavy, and you don't have to carry it alone \u{1F49B}","Thank you for trusting me. You can tell me anything here, no judgement.","I'm still here. Someone from the team will talk with you soon, and meanwhile we keep going together.","Shall we breathe together? Breathe in gently through your nose\u2026 and out slowly through your mouth. Once more. I'm here.","You did the right thing writing to me. Is there someone near you right now, someone you trust?"],goodbye:"Take care, sis \u{1F49B} Come back anytime by scanning the QR code or typing *Sista*.",unsupported:"For now I can only read written messages \u{1F64F} Write to me in your own words. In danger: *116* or *80 00 12 87*.",humanPrefix:e=>`\u{1F469}\u{1F3FE} *${e}, from the Sista team*:
+`,humanClosed:"Your conversation with the team has ended. Thank you for your trust \u{1F49B} I'm still here, write to me anytime."}};function f(e){return String(e||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[’']/g," ").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}function y(e,t){let s=` ${e} `;return t.some(u=>s.includes(` ${f(u)} `))}var E={NONE:0,CONCERN:1,URGENT:2},te={self_harm:["me suicider","suicide","me tuer","en finir","mettre fin a ma vie","plus envie de vivre","envie de mourir","je veux mourir","me faire du mal","me couper","kill myself","want to die","end my life","hurt myself"],danger:["me frappe","me bat","il va me tuer","menace de me tuer","on va me tuer","je suis en danger","il me force","on me force","viol","violee","agressee","hits me","beats me","i am in danger","raped"]},ne={hopelessness:["je sers a rien","personne ne m aime","je suis nulle","plus d espoir","je n en peux plus","j en peux plus","je craque","tout le monde me deteste","no hope","i can t take it","nobody loves me"],forced_marriage:["mariage force","on veut me marier","me marier de force","forced marriage"],threats:["il me menace","il menace","j ai peur de lui","threatens me","afraid of him"]};function J(e){let t=f(e);for(let[s,u]of Object.entries(te))if(y(t,u))return{level:E.URGENT,category:s};for(let[s,u]of Object.entries(ne))if(y(t,u))return{level:E.CONCERN,category:s};return{level:E.NONE,category:null}}var k=["stress","bullying","online","periods","family","couple","maternity","sadness","talk"],oe={stress:["stress","stressee","examen","examens","cep","bepc","bac","concours","fac","universite","devoir","notes","partiel","partiels","memoire","travail","boulot","patron","chomage","angoisse","peur","exam","job","anxious"],bullying:["harcele","harcelement","moque","moquent","insulte","insultent","bully","bullied"],online:["facebook","tiktok","instagram","photo","photos","video","en ligne","internet","chantage","orange money","moov money","online"],periods:["regles","regle","menstruation","serviette","serviettes","mal au ventre","corps","period","periods"],family:["parents","papa","maman","famille","maison","tante","oncle","belle mere","belle famille","mariage","coepouse","family"],couple:["copain","mon homme","mari","fiance","partenaire","couple","jaloux","controle mon telephone","boyfriend","husband","partner"],maternity:["enceinte","grossesse","bebe","accouchement","naissance","allaitement","pregnant","baby"],sadness:["triste","tristesse","pleure","pleurer","seule","solitude","deprime","sad","lonely"],talk:["parler","quelqu un","psychologue","aide","talk","someone"]};function re(e){let t=f(e);for(let s of k)if(y(t,oe[s]))return s;return null}async function A(e,{llm:t}={}){let s=re(e);if(s||!t)return s;try{let u=`Classify this message from a girl or young woman into exactly one label: ${k.join(", ")}, none.
+Reply with the label only.
+Message: """${String(e).slice(0,500)}"""`,p=f(await t(u));return k.includes(p)?p:null}catch{return null}}var se=[["tres tres mal",1],["au plus mal",1],["tres mal",1],["horrible",1],["very bad",1],["terrible",1],["pas bien",2],["pas trop bien",2],["pas top",2],["not good",2],["not well",2],["ca va bien",4],["tres bien",5],["very good",5],["really good",5],["super",5],["genial",5],["top",5],["great",5],["excellent",5],["mal",2],["triste",2],["fatiguee",2],["fatigue",2],["epuisee",2],["sad",2],["tired",2],["bad",2],["bof",3],["moyen",3],["moyennement",3],["comme ci comme ca",3],["ca va",3],["normal",3],["okay",3],["so so",3],["pas mieux",2],["not better",2],["mieux",4],["better",4],["calme",4],["calmer",4],["bien",4],["good",4],["fine",4]].sort((e,t)=>t[0].length-e[0].length);function _(e){let t=f(e),s=t.match(/^([1-5])(\s|$|\/)/);if(s)return Number(s[1]);for(let[u,p]of se)if(y(t,[u]))return p;return null}var ae=["oui","ouais","ouii","ok","okay","d accord","dac","vas y","bien sur","volontiers","on y va","on commence","on discute","go","yes","yeah","yep","sure","parler","talk"],ie=["non","nan","no","nope","pas maintenant","pas besoin","not now"],ue=["merci","c est bon","ca va aller","ca ira","au revoir","bye","thanks","thank you","that s all","non merci"],le=["vraie personne","quelqu un","une personne","psychiatre","psychologue","referente","real person","someone"],ce=["autre chose","autre sujet","something else","another topic","other topic"],pe=["continuer","continue","en parler","encore","keep talking","more"],H=(e,t)=>t.some(s=>e===s||e.startsWith(`${s} `)),C=e=>H(f(e),ae),q=e=>H(f(e),ie),W=e=>y(f(e),ue),I=e=>y(f(e),le),Y=e=>y(f(e),ce),B=e=>y(f(e),pe);var me=3,F=["urgent","crisis_listen"];function D({userRef:e,site:t=null,lang:s="fr"}={}){return{userRef:e,site:t,lang:s,state:"new",lastMood:null,topic:null,unknownCount:0,turn:0}}function de(e){return/\b(hello|hi|yes|english|hey)\b/.test(e)?"en":null}function he(e){let t=String(e||"").match(/SISTA[-\s_]+([A-Z0-9-]{2,20})/i);return t?t[1].toUpperCase():null}var G=16;async function U(e,t,s={}){var p;let u=await fe(e,t,s);if(s.memory){let l=(p=s.memory).history||(p.history=[]);l.push({role:"user",text:String(t)});for(let c of u.replies)l.push({role:"assistant",text:c});l.length>G&&l.splice(0,l.length-G)}return u}async function fe(e,t,{llm:s,companion:u=null,memory:p=null}={}){let l=f(t),c=p||{history:[]};c.history||(c.history=[]),c.topicTurns||(c.topicTurns=0);let o={replies:[],events:[],alert:null};e.unknownCount??(e.unknownCount=0),e.turn??(e.turn=0);let a=he(t);a&&(e.site=a,["new","urgent"].includes(e.state)||(e.state="new")),e.state==="new"&&(e.lang=de(l)||e.lang,o.events.push({type:"session_start"}));let n=T[e.lang]||T.fr,r=(...i)=>o.replies.push(i.filter(Boolean).join(`
+
+`)),g=()=>n.acks[e.turn++%n.acks.length],$=i=>{r(i,n.referralOffer),e.state="referral_offer"},v=(i,d)=>{if(e.unknownCount=0,o.events.push({type:"topic",topic:i}),i==="talk")return $(d);e.topic=i,r(d,n.topics[i].open),e.state="topic_followup"},M=async(i,d)=>{if(!u)return!1;let w=await u({history:[...c.history,{role:"user",text:String(t)}],lang:e.lang,mode:i});return w?(r(d,w),!0):!1},O=async i=>{if(!u)return!1;let d=await A(t,{llm:s});return d&&d!=="talk"&&d!==e.topic&&(o.events.push({type:"topic",topic:d}),e.topic=d,c.topicTurns=0,c.tipsOffered=!1),await M("listen",i)?(e.unknownCount=0,e.state="listening",e.topic&&n.topics[e.topic]&&!c.tipsOffered&&++c.topicTurns>=3&&(r(n.tipsOffer),c.tipsOffered=!0,e.state="tips_offer"),!0):!1},x=async()=>{if(I(t))return v("talk");if(await O())return;let i=await A(t,{llm:s});if(i&&k.includes(i))return v(i);if(W(t)){r(n.closing),e.state="listening";return}if(e.unknownCount+=1,e.unknownCount>=me){e.unknownCount=0,r(n.notSure),e.state="referral_offer";return}r(e.unknownCount===1?n.listenPrompt:n.listenPrompt2),e.state="listening"},m=J(t);if(m.level===E.URGENT)return o.events.push({type:"crisis",level:"urgent",category:m.category}),o.alert={priority:"urgent",category:m.category,userRef:e.userRef,site:e.site},F.includes(e.state)?(r(n.urgentShort),e.state="crisis_listen"):(r(n.urgent),r(n.urgentResources),e.state="urgent"),o;if(m.level===E.CONCERN&&!F.includes(e.state))return o.events.push({type:"crisis",level:"concern",category:m.category}),r(n.concern),e.unknownCount=0,e.state="concern_listen",o;if(["english","lang en"].includes(l))return e.lang="en",r(T.en.help),e.state="listening",o;if(["francais","lang fr"].includes(l))return e.lang="fr",r(T.fr.help),e.state="listening",o;if(["stop","fin","au revoir","bye"].includes(l))return r(n.goodbye),e.state="new",o;if(!["new","awaiting_consent"].includes(e.state)&&["menu","sujets","help","topics"].includes(l))return r(n.help),e.state="listening",o;switch(e.state){case"new":return r(n.welcome),e.state="awaiting_consent",o;case"awaiting_consent":return C(t)?(o.events.push({type:"consent"}),r(n.moodAsk),e.state="mood"):q(t)?r(n.consentNeeded):r(n.consentReminder),o;case"mood":{let i=_(t),d=null;i&&(e.lastMood=i,o.events.push({type:"mood",value:i}),d=i<=2?n.moodLow:i===3?n.moodMid:n.moodHigh);let w=I(t)?"talk":await A(t,{llm:s});return w&&w!=="talk"&&await O(d)?o:w&&k.includes(w)?(v(w,d),o):(r(d,i>=4?n.openQuestionHigh:n.openQuestion),e.state="listening",o)}case"topic_followup":{if(I(t))return v("talk"),o;let i=await A(t,{llm:s});if(i&&i!==e.topic&&k.includes(i))return v(i,g()),o;let d=n.topics[e.topic]||null;return d?(d.exerciseOffer?(r(g(),d.tips,d.exerciseOffer),e.state="exercise_offer"):(r(g(),d.tips,n.nextStep),e.state="after_topic"),o):(await x(),o)}case"exercise_offer":return C(t)?(r(n.topics[e.topic].exercise),e.state="exercise_running",o):q(t)?(r(n.nextStep),e.state="after_topic",o):(await x(),o);case"exercise_running":return r(n.topics[e.topic]?.exerciseDone||n.nextStep),e.state="exercise_check",o;case"exercise_check":{let i=_(t);return r(i>=4?n.moodHigh:n.acks[0],n.nextStep),e.state="after_topic",o}case"after_topic":return I(t)?(v("talk"),o):Y(t)?(r(n.help),e.state="listening",o):W(t)||q(t)?(r(n.closing),e.state="listening",o):B(t)||C(t)?(r(n.keepGoing),e.state="listening",o):(await x(),o);case"referral_offer":if(C(t))r(n.referralConfirmed),o.events.push({type:"referral",accepted:!0}),o.alert={priority:"normal",category:"referral_request",userRef:e.userRef,site:e.site},e.state="listening";else if(q(t))r(n.referralDeclined),o.events.push({type:"referral",accepted:!1}),e.state="listening";else{if(e.state="listening",await O())return o;r(n.stayWithYou)}return o;case"tips_offer":{let i=n.topics[e.topic];return i&&C(t)?(i.exerciseOffer?(r(i.tips,i.exerciseOffer),e.state="exercise_offer"):(r(i.tips,n.afterTips),e.state="listening"),o):q(t)&&f(t).split(" ").length<=3?(r(n.keepGoing),e.state="listening",o):(await x(),o)}case"urgent":return C(t)?r(n.safeYes):q(t)?r(n.safeNo):r(n.safeAsk),e.state="crisis_listen",o;case"crisis_listen":return q(t)&&f(t).split(" ").length<=3?(r(n.safeNo),o):I(t)?(r(n.urgentShort),o):(await M("crisis")||r(n.crisisSupport[e.turn++%n.crisisSupport.length]),o);case"concern_listen":{if(I(t))return v("talk"),o;if(await M("concern"))return o;let i=await A(t,{llm:s});if(i&&k.includes(i)&&i!=="talk")return v(i,g()),o;let d=e.unknownCount++;return d<n.concernFollow.length?(r(n.concernFollow[d]),o):(e.unknownCount=0,r(n.referralOffer),e.state="referral_offer",o)}default:return await x(),o}}function j(e,{site:t,date:s=new Date}){return{site:t||"UNKNOWN",week:ge(s),type:e.type,topic:e.topic??null,mood:e.value??null,level:e.level??null,accepted:e.accepted??null}}function ge(e){let t=new Date(Date.UTC(e.getFullYear(),e.getMonth(),e.getDate())),s=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-s);let u=new Date(Date.UTC(t.getUTCFullYear(),0,1)),p=Math.ceil(((t-u)/864e5+1)/7);return`${t.getUTCFullYear()}-W${String(p).padStart(2,"0")}`}function R(e){return e>0&&e<5?"<5":e}function Q(e,t){var o;let s=e.filter(a=>a.site===t),u=a=>s.filter(a).length,p={};for(let a of s)a.type==="topic"&&(p[a.topic]=(p[a.topic]||0)+1);let l=s.filter(a=>a.type==="mood").map(a=>a.mood),c={};for(let a of s)a.type==="mood"&&(c[o=a.week]||(c[o]=[])).push(a.mood);return{site:t,sessions:R(u(a=>a.type==="session_start")),topics:Object.fromEntries(Object.entries(p).map(([a,n])=>[a,R(n)])),averageMood:l.length>=5?+(l.reduce((a,n)=>a+n,0)/l.length).toFixed(2):null,lowMoodShare:l.length>=5?+(l.filter(a=>a<=2).length/l.length).toFixed(2):null,moodByWeek:Object.fromEntries(Object.entries(c).filter(([,a])=>a.length>=5).sort().map(([a,n])=>[a,+(n.reduce((r,g)=>r+g,0)/n.length).toFixed(2)])),referrals:R(u(a=>a.type==="referral"&&a.accepted)),crisisAlerts:R(u(a=>a.type==="crisis"))}}var S="OUAGA-DEMO",h=e=>document.querySelector(e),L=D({userRef:"demo-"+Math.random().toString(16).slice(2,8)}),X=[],z=0;function ye(e){let t=e;return()=>(t=t*16807%2147483647)/2147483647}function ve(){let e=ye(42),t=[],s=[["stress",30],["bullying",9],["online",11],["periods",10],["family",10],["couple",13],["maternity",6],["sadness",8],["talk",3]],u=()=>{let l=e()*100;for(let[c,o]of s)if((l-=o)<=0)return c;return"stress"},p=new Date(2026,8,7);for(let l=0;l<8;l++){let c=new Date(p.getTime()+l*7*864e5),o=l>=5?1:0,a=22+Math.floor(e()*10)+o*12;for(let n=0;n<a;n++){t.push(j({type:"session_start"},{site:S,date:c}));let r=Math.max(1,Math.min(5,Math.round(3.4-o*.7+(e()-.5)*2.6)));t.push(j({type:"mood",value:r},{site:S,date:c}));let g=u();o&&e()<.3&&(g="stress"),t.push(j({type:"topic",topic:g},{site:S,date:c})),e()<.08&&t.push(j({type:"referral",accepted:!0},{site:S,date:c}))}l%3===1&&t.push(j({type:"crisis",level:"concern"},{site:S,date:c}))}return t}var be=ve();function we(e){return e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\*([^*\n]+)\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>")}function Z(){let e=new Date;return`${String(e.getHours()).padStart(2,"0")}:${String(e.getMinutes()).padStart(2,"0")}`}function K(e,t){let s=document.createElement("div");s.className=`msg ${t}`,s.innerHTML=`<div class="bubble">${we(e)}<span class="time">${Z()}</span></div>`,h("#thread").appendChild(s),h("#thread").scrollTop=h("#thread").scrollHeight}function V(e){h("#typing").hidden=!e,h("#thread").scrollTop=h("#thread").scrollHeight}async function P(e){if(!e.trim())return;K(e,"out");let{replies:t,events:s,alert:u}=await U(L,e);for(let p of s)X.push(j(p,{site:L.site||S}));u&&qe(u),ee();for(let p of t)V(!0),await new Promise(l=>setTimeout(l,550)),V(!1),K(p,"in")}var ke={self_harm:"Risque pour soi",danger:"Danger imm\xE9diat",referral_request:"Demande \xE0 parler \xE0 quelqu\u2019un"};function qe(e){z++,h("#alerts-empty").hidden=!0;let t=document.createElement("li");t.className=`alert ${e.priority}`,t.innerHTML=`
+    <div class="alert-head">
+      <span class="pill ${e.priority}">${e.priority==="urgent"?"URGENT":"\xC0 rappeler"}</span>
+      <span class="mono">${Z()}</span>
+    </div>
+    <div class="alert-title">${ke[e.category]||e.category}</div>
+    <div class="alert-meta mono">Site ${e.site||S} \xB7 r\xE9f. ${e.userRef}</div>
+    <div class="alert-note">Aucun message n\u2019est transmis. L\u2019\xE9quipe rappelle via la passerelle WhatsApp.</div>`,h("#alerts").prepend(t),h("#alert-badge").textContent=z,h("#alert-badge").hidden=!1}var Se={stress:"Stress, examens",bullying:"Harc\xE8lement",online:"Probl\xE8me en ligne",periods:"R\xE8gles, corps",family:"Famille",couple:"Couple",maternity:"Grossesse, b\xE9b\xE9",sadness:"Tristesse",talk:"Parler \xE0 quelqu\u2019un"};function N(e){return typeof e=="number"?e:0}function ee(){let e=Q([...be,...X],S);h("#kpi-sessions").textContent=e.sessions,h("#kpi-mood").textContent=e.averageMood?.toFixed(1)??"\u2014",h("#kpi-low").textContent=e.lowMoodShare!=null?`${Math.round(e.lowMoodShare*100)} %`:"\u2014",h("#kpi-ref").textContent=e.referrals;let t=Object.entries(e.topics).sort((m,b)=>N(b[1])-N(m[1])),s=Math.max(...t.map(([,m])=>N(m)),1);h("#topics").innerHTML=t.map(([m,b])=>`
+    <div class="bar-row">
+      <span class="bar-label">${Se[m]||m}</span>
+      <span class="bar-track"><span class="bar-fill" style="width:${N(b)/s*100}%"></span></span>
+      <span class="bar-val mono">${b}</span>
+    </div>`).join("");let u=Object.entries(e.moodByWeek),p=520,l=170,c=34,o=14,a=14,n=28,r=m=>c+m*(p-c-o)/Math.max(u.length-1,1),g=m=>a+(5-m)*(l-a-n)/4,$=u.map(([,m],b)=>`${r(b)},${g(m)}`).join(" "),v=[1,2,3,4,5].map(m=>`<line x1="${c}" x2="${p-o}" y1="${g(m)}" y2="${g(m)}" class="grid"/><text x="${c-8}" y="${g(m)+4}" class="axis" text-anchor="end">${m}</text>`).join(""),M=u.map(([m],b)=>`<text x="${r(b)}" y="${l-8}" class="axis" text-anchor="middle">S${m.split("W")[1]}</text>`).join(""),O=u.length?u[u.length-1][1]:null,x=u.length>5?`<rect x="${r(5)-10}" y="${a}" width="${r(u.length-1)-r(5)+20}" height="${l-a-n}" class="exam"/><text x="${r(5)-4}" y="${a+12}" class="axis exam-label">Examens</text>`:"";h("#trend").innerHTML=`<svg viewBox="0 0 ${p} ${l}" role="img" aria-label="Humeur moyenne par semaine, de 1 \xE0 5">
+    ${x}${v}
+    <polygon points="${c},${g(1)} ${$} ${r(u.length-1)},${g(1)}" class="area"/>
+    <polyline points="${$}" class="line"/>
+    ${O!=null?`<circle cx="${r(u.length-1)}" cy="${g(O)}" r="4.5" class="dot"/>`:""}
+    ${M}</svg>`,h("#crisis-count").textContent=e.crisisAlerts}h("#composer").addEventListener("submit",e=>{e.preventDefault();let t=h("#input").value;h("#input").value="",P(t)});document.querySelectorAll("[data-say]").forEach(e=>e.addEventListener("click",()=>P(e.dataset.say)));h("#reset").addEventListener("click",()=>{L=D({userRef:"demo-"+Math.random().toString(16).slice(2,8)}),h("#thread").innerHTML='<div class="day">Aujourd\u2019hui</div>'});document.querySelectorAll("[role=tab]").forEach(e=>e.addEventListener("click",()=>{document.querySelectorAll("[role=tab]").forEach(t=>t.setAttribute("aria-selected",String(t===e))),document.querySelectorAll("[role=tabpanel]").forEach(t=>{t.hidden=t.id!==e.getAttribute("aria-controls")}),e.getAttribute("aria-controls")==="panel-alerts"&&(h("#alert-badge").hidden=!0)}));ee();P("SISTA OUAGA-DEMO");})();
+</script>
