@@ -66,7 +66,7 @@ Le webhook WhatsApp exige une adresse **https** publique, par exemple `https://s
 Si ta connexion n'a pas d'IP fixe ou si ouvrir un port est compliqué, utilise **Cloudflare Tunnel** : il donne une adresse https sans ouvrir de port.
 
 ### Option B · Sur un serveur loué (VPS)
-Sur un VPS Linux avec Docker : copie le dossier, puis `docker compose up -d`, et mets devant un proxy https (Caddy le fait en une ligne : `sista.ainodigital.bf { reverse_proxy localhost:3000 }`). Vérifie avec la psychiatre et ton cadre légal où les données ont le droit d'être hébergées.
+Sur un VPS Linux avec Docker : copie le dossier, puis `docker compose up -d`, et mets devant un proxy https (Caddy le fait en une ligne : `sista.ainodigital.bf { reverse_proxy localhost:3000 }`). Vérifie avec la référente clinique et ton cadre légal où les données ont le droit d'être hébergées.
 
 ### Brancher le webhook
 Dans l'app Meta › WhatsApp › Configuration :
@@ -93,7 +93,7 @@ npm run admin -- users
 | Rôle | Ce qu'il voit |
 |---|---|
 | `admin` | Tout |
-| `clinician` (psychiatre) | Tous les cas, tous les tableaux de bord |
+| `clinician` (référente clinique, professionnelle de santé) | Tous les cas, tous les tableaux de bord |
 | `referent` | Les cas et le tableau de bord de **son** site uniquement |
 | `site_viewer` | Le tableau de bord de **son** site, jamais les cas |
 
@@ -121,7 +121,7 @@ Sans clé, Sista répond uniquement avec les phrases validées. Avec une clé, e
 - **Sauvegarde** : le seul fichier à sauvegarder est `data/sista.db` (Hyper Backup chaque nuit). Garde le `.env` à part.
 - **Effacement automatique** : les messages des cas clôturés et les numéros inutilisés sont effacés après `SISTA_RETENTION_DAYS` jours (30 par défaut).
 - **Mise à jour du code** : remplace les fichiers, puis relance le projet dans Container Manager (ou `docker compose up -d --build`).
-- **Avant de lancer avec de vraies personnes** : la psychiatre valide tout le contenu de `content/messages.js` et le protocole `SAFETY.md`.
+- **Avant de lancer avec de vraies personnes** : la référente clinique (Dr Marina Ouédraogo et ses collègues) valide tout le contenu de `content/messages.js` et le protocole `SAFETY.md`.
 
 ---
 
@@ -129,7 +129,7 @@ Sans clé, Sista répond uniquement avec les phrases validées. Avec une clé, e
 
 ```
 src/        Moteur de conversation (sans base de données, testable seul)
-content/    Messages validés par la psychiatre
+content/    Messages relus par la référente clinique
 app/        Serveur : webhook WhatsApp, base SQLite, console, tableau de bord
 scripts/    Outils d'administration (sites, comptes, QR codes)
 test/       Tests automatiques : npm test
